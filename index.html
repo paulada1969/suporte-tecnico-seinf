@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -29,7 +30,6 @@
     }
     textarea {
       width: 100%;
-      max-width: 100%;
       min-height: 80px;
       max-height: 150px;
     }
@@ -41,19 +41,25 @@
   </style>
 </head>
 <body>
-
   <h2>Solicitação de Suporte Técnico - SEINF</h2>
   <form id="formulario">
-
     <div class="campo"><label>Nome:</label><input required type="text" id="nome"></div>
     <div class="campo"><label>CPF:</label><input required type="text" id="cpf" pattern="\d{11}" title="Digite exatamente 11 números"></div>
-    <div class="campo"><label>Email Institucional:</label><input required type="email" id="email_inst" pattern="^[a-zA-Z0-9._%+-]+@2fazenda\.gov\.br$" title="Somente emails terminados com @2fazenda.gov.br"></div>
+    <div class="campo"><label>Email Institucional:</label><input required type="email" id="email_inst" pattern="^[^@]+@fazenda\.gov\.br$" title="Somente e-mails do domínio fazenda.gov.br"></div>
     <div class="campo"><label>Email Pessoal:</label><input required type="email" id="email_pessoal"></div>
     <div class="campo"><label>Cargo:</label><input required type="text" id="cargo"></div>
     <div class="campo"><label>Andar:</label><input required type="text" id="andar"></div>
     <div class="campo"><label>Sala:</label><input required type="text" id="sala"></div>
-    <div class="campo"><label>Ramal:</label><input required type="text" id="ramal" pattern="\d+"></div>
-    <div class="campo"><label>Setor:</label><input required type="text" id="setor"></div>
+    <div class="campo"><label>Ramal:</label><input required type="text" id="ramal"></div>
+    <div class="campo"><label>Setor:</label>
+      <select id="setor">
+        <option value="">Selecione...</option>
+        <option>ASTEJ</option><option>CAP</option><option>CEGAP</option><option>COGEC</option><option>COJUL</option>
+        <option>COSUP</option><option>DIAJU</option><option>DIPAJ</option><option>DIPLA</option><option>DIPRO</option>
+        <option>DIREJ</option><option>DIRIS</option><option>DISOR</option><option>SEDOC</option><option>SEGEP</option>
+        <option>SEINF</option><option>SELOG</option><option>SEPAJ</option><option>SEPOJ</option><option>SERET</option>
+      </select>
+    </div>
     <div class="campo"><label>Nº Celular:</label><input required type="text" id="celular" pattern="\d{10,11}" title="Digite o DDD e número (10 ou 11 dígitos)"></div>
     <div class="campo"><label>Órgão:</label><input required type="text" id="orgao"></div>
 
@@ -87,20 +93,16 @@
       <strong>Tipo de Atendimento:</strong><br>
       <input type="radio" name="tipo_atendimento" value="software" onclick="mostrarProblemas()"> Software
       <input type="radio" name="tipo_atendimento" value="hardware" onclick="mostrarProblemas()"> Hardware
-      <br><br>
-      <label>Atendimento:</label>
-      <input type="radio" name="modo_atendimento" value="presencial"> Presencial
-      <input type="radio" name="modo_atendimento" value="remoto"> Remoto
     </div>
 
     <div id="problemas_software" class="hidden">
-      <label>Tipo:</label><br>
+      <strong>Tipo de Problemas:</strong><br>
       <input type="checkbox" name="problema_software" value="Erro do Sistema"> Erro do Sistema
-      <input type="checkbox" name="problema_software" value="Pacote Office 365"> Office 365
+      <input type="checkbox" name="problema_software" value="Office 365"> Office 365
       <input type="checkbox" name="problema_software" value="Plataforma CARF"> Plataforma CARF
-      <input type="checkbox" name="problema_software" value="Erro de Programas"> Programas
-      <input type="checkbox" name="problema_software" value="Erro de Senhas"> Senhas
-      <input type="checkbox" name="problema_software" value="Erro de site"> Site
+      <input type="checkbox" name="problema_software" value="Programas"> Programas
+      <input type="checkbox" name="problema_software" value="Senhas"> Senhas
+      <input type="checkbox" name="problema_software" value="Site"> Site
       <input type="checkbox" name="problema_software" value="Instalar Programa"> Instalar Programa
       <input type="checkbox" name="problema_software" value="Pastas T e O"> Pastas T e O
       <input type="checkbox" name="problema_software" value="Email"> Email
@@ -108,7 +110,7 @@
     </div>
 
     <div id="problemas_hardware" class="hidden">
-      <label>Dispositivos:</label><br>
+      <strong>Tipos de Dispositivos:</strong><br>
       <input type="checkbox" name="problema_hardware" value="PC"> PC
       <input type="checkbox" name="problema_hardware" value="Notebook"> Notebook
       <input type="checkbox" name="problema_hardware" value="Dockstation"> Dockstation
@@ -119,21 +121,13 @@
     </div>
 
     <div class="section">
-      <label for="descricao">Descrição do Problema (máx. 500 caracteres):</label><br>
+      <label for="descricao">Descrição do Problema:</label><br>
       <textarea id="descricao" maxlength="500" required></textarea>
     </div>
 
-    <div class="section">
-      <label>Prioridade:</label><br>
-      <input type="checkbox" name="prioridade" value="Alta"> Alta
-      <input type="checkbox" name="prioridade" value="Moderado"> Moderado
-      <input type="checkbox" name="prioridade" value="Agendado"> Agendado
-    </div>
-
-    <button type="button" onclick="enviarEmail('outlook')">Enviar por Outlook</button>
     <button type="button" onclick="enviarEmail('gmail')">Enviar por Gmail</button>
-    <button type="button" onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
-
+    <button type="button" onclick="enviarEmail('outlook')">Enviar por Outlook</button>
+    <button type="button" onclick="enviarWhatsapp()">Enviar por WhatsApp</button>
   </form>
 
   <script>
@@ -142,7 +136,7 @@
       document.getElementById('campos_servidor').style.display = 'none';
       document.getElementById('campos_terceirizado').style.display = 'none';
 
-      const val = document.querySelector('input[name="classificacao"]:checked')?.value;
+      const val = document.querySelector('input[name="classificacao"]:checked').value;
       if (val === 'conselheiro') document.getElementById('campos_conselheiro').style.display = 'block';
       else if (val === 'servidor') document.getElementById('campos_servidor').style.display = 'block';
       else if (val === 'terceirizado') document.getElementById('campos_terceirizado').style.display = 'block';
@@ -152,45 +146,48 @@
       document.getElementById('problemas_software').style.display = 'none';
       document.getElementById('problemas_hardware').style.display = 'none';
 
-      const tipo = document.querySelector('input[name="tipo_atendimento"]:checked')?.value;
+      const tipo = document.querySelector('input[name="tipo_atendimento"]:checked').value;
       if (tipo === 'software') document.getElementById('problemas_software').style.display = 'block';
       else if (tipo === 'hardware') document.getElementById('problemas_hardware').style.display = 'block';
     }
 
-    function gerarCorpoEmail() {
+    function enviarEmail(tipo) {
+      const nome = document.getElementById('nome').value;
+      const emailInst = document.getElementById('email_inst').value;
+      const emailPessoal = document.getElementById('email_pessoal').value;
+      const classificacao = document.querySelector('input[name="classificacao"]:checked')?.value || '';
+      const setor = document.getElementById('setor').value;
+      const ramal = document.getElementById('ramal').value;
+      const descricao = document.getElementById('descricao').value;
+      const protocolo = Math.floor(100000 + Math.random() * 900000);
+      const destinatario = tipo === 'gmail' ? 'carf.seinf@gmail.com' : 'carf.seinf@outlook.com';
+      const assunto = `Solicitação de Suporte Técnico - Protocolo ${protocolo}`;
+      const corpo = encodeURIComponent(`Solicitação de Suporte Técnico
+Nome: ${nome}
+Email Institucional: ${emailInst}
+Email Pessoal: ${emailPessoal}
+Classificação: ${classificacao}
+Setor: ${setor}
+Ramal: ${ramal}
+
+Descrição:
+${descricao}
+
+Aguarde contato dos Técnicos do SEINF.`);
+
+      const mailto = `mailto:${destinatario},${emailPessoal}?subject=${assunto}&body=${corpo}`;
+      window.open(mailto, '_blank');
+      alert('✅ Solicitação preparada. Verifique seu Gmail ou Outlook.');
+    }
+
+    function enviarWhatsapp() {
       const nome = document.getElementById('nome').value;
       const email = document.getElementById('email_inst').value;
-      const emailPessoal = document.getElementById('email_pessoal').value;
-      const ramal = document.getElementById('ramal').value;
-      const setor = document.getElementById('setor').value;
-      const classificacao = document.querySelector('input[name="classificacao"]:checked')?.value || "";
-      const msg = document.getElementById('descricao').value;
+      const descricao = document.getElementById('descricao').value;
       const protocolo = Math.floor(100000 + Math.random() * 900000);
-
-      const assunto = `Solicitação de Suporte Técnico - Protocolo ${protocolo}`;
-      const corpo = `Solicitação de Suporte Técnico\nNome: ${nome}\nEmail: ${email}\nClassificação: ${classificacao}\nSetor: ${setor}\nRamal: ${ramal}\n\nDescrição do Problema:\n${msg}\n\nAguarde contato dos Técnicos do SEINF.`;
-
-      return { assunto, corpo, emailPessoal };
-    }
-
-    function enviarEmail(tipo) {
-      const { assunto, corpo, emailPessoal } = gerarCorpoEmail();
-      const destinatario = tipo === 'gmail' ? 'carf.seinf@gmail.com' : 'carf.seinf@outlook.com';
-      const url = `mailto:${destinatario}?cc=${emailPessoal}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-      window.open(url, '_blank');
-      alert('✅ Sucesso! Sua solicitação foi preparada para envio. Verifique seu Outlook ou Gmail para confirmação.');
-    }
-
-    function enviarWhatsApp() {
-      const { corpo } = gerarCorpoEmail();
-      const mensagem = encodeURIComponent(corpo + "\n\nAguarde o contato dos Técnicos do SEINF.");
-      const url = `https://wa.me/556130553294?text=${mensagem}`;
-      window.open(url, '_blank');
+      const msg = `Solicitação de Suporte Técnico - Protocolo ${protocolo}%0ANome: ${nome}%0AEmail: ${email}%0ADescrição: ${descricao}%0AAguarde o Contato dos Técnicos do SEINF.`;
+      window.open(`https://wa.me/556130553294?text=${msg}`, '_blank');
     }
   </script>
-
 </body>
 </html>
-
-
-
