@@ -2,191 +2,165 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Solicitação de Suporte Técnico - SEINF</title>
+  <meta charset="UTF-8" />
+  <title>Formulário de Suporte Técnico - CARF-SEINF</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-    label {
-      display: inline-block;
-      width: 180px;
-      margin-bottom: 5px;
-      vertical-align: top;
-    }
-    input, select, textarea {
-      width: 250px;
-      padding: 5px;
-      margin-bottom: 10px;
-    }
-    .campo {
-      margin-bottom: 10px;
-    }
-    .hidden {
-      display: none;
-    }
-    textarea {
-      width: 100%;
-      min-height: 80px;
-      max-height: 150px;
-    }
-    .section {
-      margin: 20px 0;
-      padding: 10px;
-      border-top: 1px solid #ccc;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { display: block; margin-top: 10px; }
+    select, input, textarea { width: 300px; padding: 5px; margin-top: 5px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h2>Solicitação de Suporte Técnico - SEINF</h2>
+  <h1>Formulário de Suporte Técnico - CARF-SEINF</h1>
   <form id="formulario">
-    <div class="campo"><label>Nome:</label><input required type="text" id="nome"></div>
-    <div class="campo"><label>CPF:</label><input required type="text" id="cpf" pattern="\d{11}" title="Digite exatamente 11 números"></div>
-    <div class="campo"><label>Email Institucional:</label><input required type="email" id="email_inst" pattern="^[^@]+@fazenda\.gov\.br$" title="Somente e-mails do domínio fazenda.gov.br"></div>
-    <div class="campo"><label>Email Pessoal:</label><input required type="email" id="email_pessoal"></div>
-    <div class="campo"><label>Cargo:</label><input required type="text" id="cargo"></div>
-    <div class="campo"><label>Andar:</label><input required type="text" id="andar"></div>
-    <div class="campo"><label>Sala:</label><input required type="text" id="sala"></div>
-    <div class="campo"><label>Ramal:</label><input required type="text" id="ramal"></div>
-    <div class="campo"><label>Setor:</label>
-      <select id="setor">
+    <label>Nome completo: <input type="text" id="nome" required></label>
+    <label>CPF: <input type="text" id="cpf" required></label>
+    <label>Email institucional: <input type="email" id="email" required></label>
+
+    <label>Setor:
+      <select id="setor" required>
         <option value="">Selecione...</option>
         <option>ASTEJ</option><option>CAP</option><option>CEGAP</option><option>COGEC</option><option>COJUL</option>
         <option>COSUP</option><option>DIAJU</option><option>DIPAJ</option><option>DIPLA</option><option>DIPRO</option>
         <option>DIREJ</option><option>DIRIS</option><option>DISOR</option><option>SEDOC</option><option>SEGEP</option>
         <option>SEINF</option><option>SELOG</option><option>SEPAJ</option><option>SEPOJ</option><option>SERET</option>
       </select>
-    </div>
-    <div class="campo"><label>Nº Celular:</label><input required type="text" id="celular" pattern="\d{10,11}" title="Digite o DDD e número (10 ou 11 dígitos)"></div>
-    <div class="campo"><label>Órgão:</label><input required type="text" id="orgao"></div>
+    </label>
 
-    <div class="section">
-      <strong>Quem está solicitando?</strong><br>
-      <input type="radio" name="classificacao" value="conselheiro" onclick="mostrarCampos()" required> Conselheiro
-      <input type="radio" name="classificacao" value="servidor" onclick="mostrarCampos()"> Servidor
-      <input type="radio" name="classificacao" value="terceirizado" onclick="mostrarCampos()"> Terceirizado
-    </div>
+    <label>Quem está solicitando?
+      <select id="tipoSolicitante" required>
+        <option value="">Selecione...</option>
+        <option value="conselheiro">Conselheiro</option>
+        <option value="servidor">Servidor</option>
+        <option value="terceirizado">Terceirizado</option>
+      </select>
+    </label>
 
-    <div id="campos_conselheiro" class="hidden">
-      <label>Tipo:</label>
-      <input type="radio" name="tipo_conselheiro" value="fazendario"> Fazendário
-      <input type="radio" name="tipo_conselheiro" value="contribuinte"> Contribuinte<br>
-      <div class="campo"><label>Sessão:</label><input type="text" id="sessao"></div>
-      <div class="campo"><label>Câmara:</label><input type="text" id="camara"></div>
-      <div class="campo"><label>Turma:</label><input type="text" id="turma"></div>
-    </div>
-
-    <div id="campos_servidor" class="hidden">
-      <label>Atuação:</label>
-      <input type="radio" name="atuacao" value="presencial"> Presencial
-      <input type="radio" name="atuacao" value="home"> Home Office
+    <div id="camposConselheiro" class="hidden">
+      <label><input type="radio" name="tipoConselheiro" value="Fazendário"> Fazendário</label>
+      <label><input type="radio" name="tipoConselheiro" value="Contribuinte"> Contribuinte</label>
+      <label>Sessão: <input type="text"></label>
+      <label>Turma: <input type="text"></label>
+      <label>Câmara: <input type="text"></label>
     </div>
 
-    <div id="campos_terceirizado" class="hidden">
-      <div class="campo"><label>Empresa:</label><input type="text" id="empresa"></div>
+    <div id="camposServidor" class="hidden">
+      <label>Atuação: 
+        <select><option value="">Selecione...</option><option>Presencial</option><option>Home Office</option></select>
+      </label>
     </div>
 
-    <div class="section">
-      <strong>Tipo de Atendimento:</strong><br>
-      <input type="radio" name="tipo_atendimento" value="software" onclick="mostrarProblemas()"> Software
-      <input type="radio" name="tipo_atendimento" value="hardware" onclick="mostrarProblemas()"> Hardware
+    <div id="camposTerceirizado" class="hidden">
+      <label>Empresa: <input type="text"></label>
     </div>
 
-    <div id="problemas_software" class="hidden">
-      <strong>Tipo de Problemas:</strong><br>
-      <input type="checkbox" name="problema_software" value="Erro do Sistema"> Erro do Sistema
-      <input type="checkbox" name="problema_software" value="Office 365"> Office 365
-      <input type="checkbox" name="problema_software" value="Plataforma CARF"> Plataforma CARF
-      <input type="checkbox" name="problema_software" value="Programas"> Programas
-      <input type="checkbox" name="problema_software" value="Senhas"> Senhas
-      <input type="checkbox" name="problema_software" value="Site"> Site
-      <input type="checkbox" name="problema_software" value="Instalar Programa"> Instalar Programa
-      <input type="checkbox" name="problema_software" value="Pastas T e O"> Pastas T e O
-      <input type="checkbox" name="problema_software" value="Email"> Email
-      <input type="checkbox" name="problema_software" value="Outros"> Outros
+    <label>Cargo: <input type="text" required></label>
+    <label>Andar: <input type="text" required></label>
+    <label>Sala: <input type="text" required></label>
+    <label>Ramal: <input type="text" required></label>
+    <label>Nº de Celular: <input type="text" required></label>
+    <label>Órgão: <input type="text" required></label>
+
+    <label>Tipo de Atendimento:
+      <select id="tipoAtendimento" required>
+        <option value="">Selecione...</option>
+        <option value="software">Software</option>
+        <option value="hardware">Hardware</option>
+      </select>
+    </label>
+
+    <label>Presencial ou Remoto:
+      <select required>
+        <option value="">Selecione...</option>
+        <option>Presencial</option>
+        <option>Remoto</option>
+      </select>
+    </label>
+
+    <div id="softwareFields" class="hidden">
+      <label><input type="checkbox" value="Erro de sistema"> Erro de sistema</label>
+      <label><input type="checkbox" value="Falha no SEI"> Falha no SEI</label>
+      <label><input type="checkbox" value="Atualização de software"> Atualização de software</label>
     </div>
 
-    <div id="problemas_hardware" class="hidden">
-      <strong>Tipos de Dispositivos:</strong><br>
-      <input type="checkbox" name="problema_hardware" value="PC"> PC
-      <input type="checkbox" name="problema_hardware" value="Notebook"> Notebook
-      <input type="checkbox" name="problema_hardware" value="Dockstation"> Dockstation
-      <input type="checkbox" name="problema_hardware" value="Tela"> Tela
-      <input type="checkbox" name="problema_hardware" value="Projetor"> Projetor
-      <input type="checkbox" name="problema_hardware" value="End Point"> End Point
-      <input type="checkbox" name="problema_hardware" value="Outros"> Outros
+    <div id="hardwareFields" class="hidden">
+      <label><input type="checkbox" value="Monitor com defeito"> Monitor com defeito</label>
+      <label><input type="checkbox" value="Teclado ou mouse não funcionam"> Teclado ou mouse não funcionam</label>
+      <label><input type="checkbox" value="Notebook com lentidão"> Notebook com lentidão</label>
     </div>
 
-    <div class="section">
-      <label for="descricao">Descrição do Problema:</label><br>
-      <textarea id="descricao" maxlength="500" required></textarea>
-    </div>
+    <label>Descreva o problema:
+      <textarea rows="4" required></textarea>
+    </label>
 
-    <button type="button" onclick="enviarEmail('gmail')">Enviar por Gmail</button>
-    <button type="button" onclick="enviarEmail('outlook')">Enviar por Outlook</button>
-    <button type="button" onclick="window.open('https://bit.ly/SuporteTecnicoSEINF', '_blank')">Enviar por WhatsApp</button>
+    <button type="button" onclick="enviarPorEmail('gmail')">Enviar por Gmail</button>
+    <button type="button" onclick="enviarPorEmail('outlook')">Enviar por Outlook</button>
+    <button type="button" onclick="enviarPorWhatsApp()">Enviar por WhatsApp</button>
+  </form>
 
   <script>
-    function mostrarCampos() {
-      document.getElementById('campos_conselheiro').style.display = 'none';
-      document.getElementById('campos_servidor').style.display = 'none';
-      document.getElementById('campos_terceirizado').style.display = 'none';
+    const tipoSolicitante = document.getElementById('tipoSolicitante');
+    const tipoAtendimento = document.getElementById('tipoAtendimento');
 
-      const val = document.querySelector('input[name="classificacao"]:checked').value;
-      if (val === 'conselheiro') document.getElementById('campos_conselheiro').style.display = 'block';
-      else if (val === 'servidor') document.getElementById('campos_servidor').style.display = 'block';
-      else if (val === 'terceirizado') document.getElementById('campos_terceirizado').style.display = 'block';
+    tipoSolicitante.addEventListener('change', () => {
+      document.getElementById('camposConselheiro').classList.add('hidden');
+      document.getElementById('camposServidor').classList.add('hidden');
+      document.getElementById('camposTerceirizado').classList.add('hidden');
+      if (tipoSolicitante.value === 'conselheiro') {
+        document.getElementById('camposConselheiro').classList.remove('hidden');
+      } else if (tipoSolicitante.value === 'servidor') {
+        document.getElementById('camposServidor').classList.remove('hidden');
+      } else if (tipoSolicitante.value === 'terceirizado') {
+        document.getElementById('camposTerceirizado').classList.remove('hidden');
+      }
+    });
+
+    tipoAtendimento.addEventListener('change', () => {
+      document.getElementById('softwareFields').classList.add('hidden');
+      document.getElementById('hardwareFields').classList.add('hidden');
+      if (tipoAtendimento.value === 'software') {
+        document.getElementById('softwareFields').classList.remove('hidden');
+      } else if (tipoAtendimento.value === 'hardware') {
+        document.getElementById('hardwareFields').classList.remove('hidden');
+      }
+    });
+
+    function gerarProtocolo() {
+      return Math.floor(Math.random() * 1000000000);
     }
 
-    function mostrarProblemas() {
-      document.getElementById('problemas_software').style.display = 'none';
-      document.getElementById('problemas_hardware').style.display = 'none';
-
-      const tipo = document.querySelector('input[name="tipo_atendimento"]:checked').value;
-      if (tipo === 'software') document.getElementById('problemas_software').style.display = 'block';
-      else if (tipo === 'hardware') document.getElementById('problemas_hardware').style.display = 'block';
+    function validarEmail(email) {
+      return email.endsWith("@fazenda.gov.br");
     }
 
-    function enviarEmail(tipo) {
-      const nome = document.getElementById('nome').value;
-      const emailInst = document.getElementById('email_inst').value;
-      const emailPessoal = document.getElementById('email_pessoal').value;
-      const classificacao = document.querySelector('input[name="classificacao"]:checked')?.value || '';
-      const setor = document.getElementById('setor').value;
-      const ramal = document.getElementById('ramal').value;
-      const descricao = document.getElementById('descricao').value;
-      const protocolo = Math.floor(100000 + Math.random() * 900000);
-      const destinatario = tipo === 'gmail' ? 'carf.seinf@gmail.com' : 'carf.seinf@outlook.com';
-      const assunto = `Solicitação de Suporte Técnico - Protocolo ${protocolo}`;
-      const corpo = encodeURIComponent(`Solicitação de Suporte Técnico
-Nome: ${nome}
-Email Institucional: ${emailInst}
-Email Pessoal: ${emailPessoal}
-Classificação: ${classificacao}
-Setor: ${setor}
-Ramal: ${ramal}
+    function enviarPorEmail(tipo) {
+      const email = document.getElementById("email").value;
+      const nome = document.getElementById("nome").value;
+      const protocolo = gerarProtocolo();
+      if (!validarEmail(email)) {
+        alert("Por favor, insira um e-mail institucional válido (@fazenda.gov.br)");
+        return;
+      }
 
-Descrição:
-${descricao}
+      const assunto = encodeURIComponent(`[PROTOCOLO ${protocolo}] Solicitação de Suporte Técnico`);
+      const corpo = encodeURIComponent(`Olá, segue solicitação de suporte técnico do usuário ${nome}.\n\nProtocolo: ${protocolo}\n\nDemais dados no formulário.`);
 
-Aguarde contato dos Técnicos do SEINF.`);
-
-      const mailto = `mailto:${destinatario},${emailPessoal}?subject=${assunto}&body=${corpo}`;
-      window.open(mailto, '_blank');
-      alert('✅ Solicitação preparada. Verifique seu Gmail ou Outlook.');
+      const para = tipo === "gmail"
+        ? `mailto:carf.seinf@gmail.com?cc=${email}&subject=${assunto}&body=${corpo}`
+        : `mailto:carf.seinf@outlook.com?cc=${email}&subject=${assunto}&body=${corpo}`;
+      window.location.href = para;
     }
 
-    function enviarWhatsapp() {
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email_inst').value;
-      const descricao = document.getElementById('descricao').value;
-      const protocolo = Math.floor(100000 + Math.random() * 900000);
-      const msg = `Solicitação de Suporte Técnico - Protocolo ${protocolo}%0ANome: ${nome}%0AEmail: ${email}%0ADescrição: ${descricao}%0AAguarde o Contato dos Técnicos do SEINF.`;
-      window.open(`https://wa.me/556130553294?text=${msg}`, '_blank');
+    function enviarPorWhatsApp() {
+      const nome = document.getElementById("nome").value;
+      const cpf = document.getElementById("cpf").value;
+      const email = document.getElementById("email").value;
+      const protocolo = gerarProtocolo();
+      const mensagem = encodeURIComponent(`Olá, aqui é ${nome} (CPF: ${cpf})\nE-mail: ${email}\n\nProtocolo: ${protocolo}\nAguarde o contato dos Técnicos do SEINF.`);
+      window.open(`https://bit.ly/SuporteTecnicoSEINF?text=${mensagem}`, '_blank');
     }
   </script>
 </body>
 </html>
+
